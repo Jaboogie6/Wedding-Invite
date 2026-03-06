@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Invitation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Georgia", serif;
+      background: linear-gradient(135deg, #fff7fb, #fdf1f5, #fffaf2);
+      color: #5a3e4d;
+      overflow-x: hidden;
+    }
+
+    /* Floating background animation */
+    .floating-elements {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-elements span {
+      position: absolute;
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 182, 193, 0.25);
+      animation: floatUp linear infinite;
+      bottom: -100px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(45deg);
+      filter: blur(0.3px);
+    }
+
+    .floating-elements span::before {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 182, 193, 0.25);
+      border-radius: 50%;
+      top: -10px;
+      left: 0;
+    }
+
+    .floating-elements span::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 182, 193, 0.25);
+      border-radius: 50%;
+      top: 0;
+      left: -10px;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(45deg) scale(0.7);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-120vh) rotate(405deg) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.85), rgba(255,255,255,0.35)),
+        linear-gradient(135deg, #fde8ef, #fff8f2);
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 40px 25px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 28px;
+      box-shadow: 0 15px 40px rgba(173, 115, 138, 0.15);
+      animation: fadeUp 1.5s ease;
+    }
+
+    .hero h1 {
+      font-size: 1.1rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #b07b8f;
+      margin-bottom: 18px;
+    }
+
+    .hero h2 {
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      font-weight: 400;
+      color: #7a4f61;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .date-badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #eeb8c9, #f7d9b8);
+      color: white;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 22px rgba(221, 153, 176, 0.3);
+      animation: pulseGlow 2.5s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); box-shadow: 0 8px 22px rgba(221, 153, 176, 0.3); }
+      50% { transform: scale(1.04); box-shadow: 0 12px 28px rgba(221, 153, 176, 0.45); }
+    }
+
+    section {
+      padding: 90px 20px;
+    }
+
+    .card {
+      max-width: 950px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(8px);
+      border-radius: 24px;
+      padding: 50px 28px;
+      box-shadow: 0 10px 30px rgba(136, 92, 109, 0.12);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 20px;
+      color: #7a4f61;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+      font-size: 1.08rem;
+      color: #6b5560;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+      margin-top: 30px;
+    }
+
+    .detail-box {
+      padding: 28px 22px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(253,244,247,0.9));
+      box-shadow: 0 6px 18px rgba(150, 104, 122, 0.09);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .detail-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 14px 28px rgba(150, 104, 122, 0.14);
+    }
+
+    .detail-box h3 {
+      margin-bottom: 10px;
+      color: #b07b8f;
+      font-size: 1.2rem;
+    }
+
+    .detail-box p {
+      line-height: 1.7;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 18px;
+      margin-top: 35px;
+    }
+
+    .countdown-box {
+      text-align: center;
+      padding: 28px 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #fff, #fff6f8);
+      box-shadow: 0 8px 20px rgba(171, 111, 136, 0.1);
+    }
+
+    .countdown-box span {
+      display: block;
+      font-size: 2.4rem;
+      color: #8f5a70;
+      font-weight: bold;
+    }
+
+    .countdown-box small {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #b07b8f;
+    }
+
+    .story-text {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+      line-height: 2;
+      font-size: 1.08rem;
+    }
+
+    .rsvp {
+      text-align: center;
+    }
+
+    .rsvp a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 16px 34px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: white;
+      background: linear-gradient(135deg, #d992af, #efc6a7);
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 24px rgba(211, 139, 168, 0.24);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .rsvp a:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 14px 30px rgba(211, 139, 168, 0.32);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px 50px;
+      color: #9a7b89;
+      font-size: 0.95rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: all 1s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(35px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .hero-content {
+        padding: 30px 20px;
+      }
+
+      .hero h2 {
+        font-size: 2.7rem;
+      }
+
+      .card {
+        padding: 35px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-elements" id="floating-elements"></div>
+
+  <div class="container">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Together With Their Families</h1>
+        <h2>Emma <span style="color:#d18aa6;">&</span> Daniel</h2>
+        <p>
+          Joyfully invite you to celebrate their wedding day and share in a beautiful
+          beginning filled with love, laughter, and forever.
+        </p>
+        <div class="date-badge">Saturday, 20 December 2026</div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="card">
+        <h2 class="section-title">Our Special Day</h2>
+        <p class="section-subtitle">
+          We would be honored to have you with us as we begin this new chapter together.
+        </p>
+
+        <div class="details-grid">
+          <div class="detail-box">
+            <h3>Date</h3>
+            <p>Saturday<br>20 December 2026</p>
+          </div>
+          <div class="detail-box">
+            <h3>Time</h3>
+            <p>Ceremony starts at 3:30 PM<br>Reception to follow</p>
+          </div>
+          <div class="detail-box">
+            <h3>Venue</h3>
+            <p>Rosewood Garden Estate<br>Cape Town, South Africa</p>
+          </div>
+          <div class="detail-box">
+            <h3>Dress Code</h3>
+            <p>Elegant Formal<br>Soft Pastel Colors Welcome</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="card">
+        <h2 class="section-title">Countdown to Forever</h2>
+        <p class="section-subtitle">
+          Every moment brings us closer to the day we say “I do.”
+        </p>
+
+        <div class="countdown" id="countdown">
+          <div class="countdown-box">
+            <span id="days">0</span>
+            <small>Days</small>
+          </div>
+          <div class="countdown-box">
+            <span id="hours">0</span>
+            <small>Hours</small>
+          </div>
+          <div class="countdown-box">
+            <span id="minutes">0</span>
+            <small>Minutes</small>
+          </div>
+          <div class="countdown-box">
+            <span id="seconds">0</span>
+            <small>Seconds</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="card">
+        <h2 class="section-title">A Little Note</h2>
+        <div class="story-text">
+          From the first hello to this unforgettable day, our journey has been one filled
+          with grace, joy, and so much love. We cannot imagine celebrating this moment
+          without the people who mean the most to us. Thank you for being part of our story.
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="card rsvp">
+        <h2 class="section-title">RSVP</h2>
+        <p class="section-subtitle">
+          Kindly respond by 30 November 2026. We can’t wait to celebrate with you.
+        </p>
+        <a href="mailto:yourwedding@email.com?subject=Wedding RSVP">Confirm Attendance</a>
+      </div>
+    </section>
+
+    <footer>
+      Made with love for a beautiful celebration.
+    </footer>
+  </div>
+
+  <script>
+    // Floating hearts
+    const floatingContainer = document.getElementById("floating-elements");
+
+    for (let i = 0; i < 24; i++) {
+      const heart = document.createElement("span");
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 8 + Math.random() * 10 + "s";
+      heart.style.animationDelay = Math.random() * 8 + "s";
+      heart.style.opacity = Math.random() * 0.5 + 0.2;
+      heart.style.transform += ` scale(${0.6 + Math.random()})`;
+      floatingContainer.appendChild(heart);
+    }
+
+    // Countdown timer
+    const weddingDate = new Date("December 20, 2026 15:30:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      if (distance < 0) {
+        document.getElementById("countdown").innerHTML =
+          "<div style='grid-column:1/-1;text-align:center;font-size:1.4rem;color:#8f5a70;'>The big day is here 💍</div>";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = hours;
+      document.getElementById("minutes").textContent = minutes;
+      document.getElementById("seconds").textContent = seconds;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Scroll reveal animation
+    const reveals = document.querySelectorAll(".reveal");
+
+    function revealOnScroll() {
+      reveals.forEach((section) => {
+        const top = section.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        if (top < windowHeight - 100) {
+          section.classList.add("active");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", revealOnScroll);
+    revealOnScroll();
+  </script>
+</body>
+</html>
